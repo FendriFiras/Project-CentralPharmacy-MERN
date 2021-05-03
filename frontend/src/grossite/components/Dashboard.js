@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import Header from '../../shared/components/Headers/Header';
+import HeaderGrossiste from '../../shared/components/Headers/HeaderGrossiste';
 import classnames from 'classnames';
 import { Card, CardHeader, CardBody, NavItem, NavLink, Nav, Container, Row, Col } from 'reactstrap';
 
@@ -19,7 +19,7 @@ const Dashboard = () => {
 	};
 	return (
 		<>
-			<Header />
+			<HeaderGrossiste />
 			{/* Page content */}
 			<Container className="mt--7" fluid>
 				<Row>
