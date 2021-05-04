@@ -1,20 +1,13 @@
-/*!
-=========================================================
-* Argon Dashboard React - v1.2.0
-=========================================================
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-* Coded by Creative Tim
-=========================================================
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-import React from 'react';
+import React, { useContext, useState } from 'react';
 
-// reactstrap components
+import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
+import { useForm } from '../../shared/hooks/form-hook';
+import Card from '../../shared/components/UIElements/Card';
+
+import Button from '../../shared/components/FormElements/Button';
+import { AuthContext } from '../../shared/context/auth-context';
+import './Login.css';
 import {
-	Button,
-	Card,
 	CardHeader,
 	CardBody,
 	FormGroup,
@@ -26,47 +19,81 @@ import {
 	Row,
 	Col,
 } from 'reactstrap';
+// reactstrap components
 
 const Login = () => {
+	const auth = useContext(AuthContext);
+	const [name, setName] = useState('');
+	const [password, setPassword] = useState('');
+	const [isLoginMode, setIsLoginMode] = useState(true);
+	const authSubmitHandler = async (event) => {
+		event.preventDefault();
+		auth.login();
+		try {
+			const newProduct = {
+				username: name,
+				password: password,
+			};
+			let hasError = false;
+			const response = await fetch('http://localhost:3001/auth/signin', {
+				method: 'POST',
+				body: JSON.stringify(newProduct),
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+
+			if (!response.ok) {
+				hasError = true;
+			}
+
+			const responseData = await response.json();
+
+			console.log(responseData);
+
+			if (hasError) {
+				throw new Error(responseData.message);
+			}
+		} catch (error) {
+			alert(error.message || 'Something went wrong!');
+		}
+	};
+
+	const [formState, inputHandler, setFormData] = useForm(
+		{
+			email: {
+				value: '',
+				isValid: false,
+			},
+			password: {
+				value: '',
+				isValid: false,
+			},
+		},
+		false
+	);
 	return (
 		<>
-			<Col lg="5" md="7">
-				<Card className="bg-secondary shadow border-0">
-					<CardBody className="px-lg-5 py-lg-5">
-						<div className="text-center text-muted mb-4">
-							<small>Enter your Email and password</small>
-						</div>
-						<Form role="form">
-							<FormGroup className="mb-3">
-								<InputGroup className="input-group-alternative">
-									<InputGroupAddon addonType="prepend">
-										<InputGroupText>
-											<i className="ni ni-email-83" />
-										</InputGroupText>
-									</InputGroupAddon>
-									<Input placeholder="Email" type="email" autoComplete="new-email" />
-								</InputGroup>
-							</FormGroup>
-							<FormGroup>
-								<InputGroup className="input-group-alternative">
-									<InputGroupAddon addonType="prepend">
-										<InputGroupText>
-											<i className="ni ni-lock-circle-open" />
-										</InputGroupText>
-									</InputGroupAddon>
-									<Input placeholder="Password" type="password" autoComplete="new-password" />
-								</InputGroup>
-							</FormGroup>
+			<Card className="authentication">
+				<h2>Login Required</h2>
+				<hr />
+				<form onSubmit={authSubmitHandler}>
+					<Input
+						id="name"
+						type="text"
+						placeholder="Enter your email"
+						onChange={(event) => setName(event.target.value)}
+					/>
+					<Input
+						id="password"
+						type="password"
+						placeholder="Enter your password"
+						onChange={(event) => setPassword(event.target.value)}
+					/>
 
-							<div className="text-center">
-								<Button className="my-4" color="primary" type="button">
-									Sign in
-								</Button>
-							</div>
-						</Form>
-					</CardBody>
-				</Card>
-			</Col>
+					<Button type="submit">LOGIN</Button>
+				</form>
+			</Card>
 		</>
 	);
 };
