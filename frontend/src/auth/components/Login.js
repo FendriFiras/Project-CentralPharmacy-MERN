@@ -3,9 +3,10 @@ import React, { useContext, useState } from 'react';
 import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE } from '../../shared/util/validators';
 import { useForm } from '../../shared/hooks/form-hook';
 import Card from '../../shared/components/UIElements/Card';
-
+import { Redirect } from 'react-router-dom';
 import Button from '../../shared/components/FormElements/Button';
 import { AuthContext } from '../../shared/context/auth-context';
+import { JwtContext } from '../../shared/context/jwt-context';
 import './Login.css';
 import {
 	CardHeader,
@@ -23,21 +24,25 @@ import {
 
 const Login = () => {
 	const auth = useContext(AuthContext);
+	const { jwt, setJwt } = useContext(JwtContext);
+	const [refresh, setRefresh] = useState(false);
+
 	const [name, setName] = useState('');
 	const [password, setPassword] = useState('');
 	const [isLoginMode, setIsLoginMode] = useState(true);
 	const authSubmitHandler = async (event) => {
 		event.preventDefault();
 		auth.login();
+		localStorage.setItem('isLoggedIn', true);
 		try {
-			const newProduct = {
+			const newUser = {
 				username: name,
 				password: password,
 			};
 			let hasError = false;
 			const response = await fetch('http://localhost:3001/auth/signin', {
 				method: 'POST',
-				body: JSON.stringify(newProduct),
+				body: JSON.stringify(newUser),
 				headers: {
 					'Content-Type': 'application/json',
 				},
@@ -51,6 +56,50 @@ const Login = () => {
 
 			console.log(responseData);
 
+			localStorage.setItem('token', responseData.accessToken);
+			localStorage.setItem('jwt', responseData.roles);
+			localStorage.setItem('jwtName', responseData.username);
+			console.log(responseData.accessToken);
+			let role;
+
+			//get Role content
+			if (responseData.roles == undefined) {
+			} else {
+				setJwt(responseData);
+
+				responseData.roles.map((roles) => {
+					switch (roles) {
+						case 'ROLE_ADMIN':
+							role = 'admin';
+							break;
+						case 'ROLE_RESPONSABLE':
+							role = 'responsable';
+							break;
+						case 'ROLE_TRANSPORTEUR':
+							role = 'transporteur';
+							break;
+						case 'ROLE_GROSSISTE':
+							role = 'grossiste';
+							break;
+
+						default:
+							role = 'auth';
+							break;
+					}
+				});
+
+				const request = await fetch(`http://localhost:3001/${role}`, {
+					method: 'GET',
+					headers: {
+						'Content-Type': 'application/json',
+						'x-access-token': localStorage.getItem('token'),
+					},
+				}).then(async (response) => {
+					const data = await response.text();
+					console.log(data);
+				});
+			}
+
 			if (hasError) {
 				throw new Error(responseData.message);
 			}
@@ -59,19 +108,6 @@ const Login = () => {
 		}
 	};
 
-	const [formState, inputHandler, setFormData] = useForm(
-		{
-			email: {
-				value: '',
-				isValid: false,
-			},
-			password: {
-				value: '',
-				isValid: false,
-			},
-		},
-		false
-	);
 	return (
 		<>
 			<Card className="authentication">
@@ -84,6 +120,7 @@ const Login = () => {
 						placeholder="Enter your email"
 						onChange={(event) => setName(event.target.value)}
 					/>
+
 					<Input
 						id="password"
 						type="password"

@@ -1,26 +1,9 @@
-/*!
-
-=========================================================
-* Argon Dashboard React - v1.2.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 /*eslint-disable*/
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { NavLink as NavLinkRRD, Link } from 'react-router-dom';
 // nodejs library to set properties for components
 import { PropTypes } from 'prop-types';
-
+import { AuthContext } from '../../context/auth-context';
 // reactstrap components
 import {
 	Button,
@@ -55,6 +38,11 @@ import {
 var ps;
 
 const Sidebar = (props) => {
+	const name = localStorage.getItem('jwtName');
+
+	//auth context
+	const auth = useContext(AuthContext);
+
 	const [collapseOpen, setCollapseOpen] = useState();
 	// verifies if routeName is the one active (in browser input)
 	const activeRoute = (routeName) => {
@@ -68,6 +56,13 @@ const Sidebar = (props) => {
 	const closeCollapse = () => {
 		setCollapseOpen(false);
 	};
+	//logout
+	const logoutHandler = () => {
+		auth.logout();
+		localStorage.setItem('isLoggedIn', false);
+		localStorage.setItem('jwt', null);
+	};
+
 	// creates the links that appear in the left menu / Sidebar
 
 	const { bgColor, routes, logo } = props;
@@ -148,24 +143,13 @@ const Sidebar = (props) => {
 							</DropdownItem>
 							<DropdownItem to="/admin/user-profile" tag={Link}>
 								<i className="ni ni-single-02" />
-								<span>My profile</span>
+								<span>{name}</span>
 							</DropdownItem>
-							<DropdownItem to="/admin/user-profile" tag={Link}>
-								<i className="ni ni-settings-gear-65" />
-								<span>Settings</span>
-							</DropdownItem>
-							<DropdownItem to="/admin/user-profile" tag={Link}>
-								<i className="ni ni-calendar-grid-58" />
-								<span>Activity</span>
-							</DropdownItem>
-							<DropdownItem to="/admin/user-profile" tag={Link}>
-								<i className="ni ni-support-16" />
-								<span>Support</span>
-							</DropdownItem>
+
 							<DropdownItem divider />
 							<DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
 								<i className="ni ni-user-run" />
-								<span>Logout</span>
+								<span onClick={logoutHandler}>Logout</span>
 							</DropdownItem>
 						</DropdownMenu>
 					</UncontrolledDropdown>

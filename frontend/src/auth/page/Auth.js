@@ -6,7 +6,7 @@ import AuthFooter from '../../shared/components/Footers/AuthFooter';
 import Login from '../components/Login';
 // reactstrap components
 import { Container, Row, Col } from 'reactstrap';
-const Auth = () => {
+const Auth = (props) => {
 	return (
 		<>
 			<div className="main-content">
