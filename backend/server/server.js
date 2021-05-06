@@ -1,4 +1,5 @@
 const express = require('express');
+// create express app
 const app = express();
 
 const mongoose = require('mongoose');
@@ -12,7 +13,10 @@ app.set('views', '../views');
 
 //midelware and static files
 app.use(express.static('public'));
+// parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
+// parse requests of content-type - application/json
+app.use(bodyParser.json());
 
 var corsOptions = {
 	origin: 'http://localhost:3000',
@@ -26,12 +30,13 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// routes
-require('../routes/auth.routes')(app);
-require('../routes/user.routes')(app);
-
-const db = require('./../models');
-const Role = db.role;
+//Activer CORS
+app.use(function (req, res, next) {
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT');
+	res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+	next();
+});
 
 //connect to mongodb
 const dbm = 'mongodb+srv://firas:cluplu44@cluster0.bysz7.mongodb.net/MERN_app?retryWrites=true&w=majority';
@@ -39,59 +44,22 @@ mongoose
 	.connect(dbm, { useNewUrlParser: true, useUnifiedTopology: true })
 	.then(() => {
 		console.log('connexionestableshed');
-		initial();
 
 		app.listen(3001);
 	})
 	.catch((err) => console.log(err));
 
-// // simple route
-// app.get('/', (req, res) => {
-// 	res.json({ message: 'Welcome to bezkoder application.' });
-// });
+const db = require('./../models');
+const Role = db.role;
 
-function initial() {
-	Role.estimatedDocumentCount((err, count) => {
-		if (!err && count === 0) {
-			new Role({
-				name: 'transporteur',
-			}).save((err) => {
-				if (err) {
-					console.log('error', err);
-				}
+// Require Notes routes
+//require('./app/routes/admin.routes')(app);
+require('../routes/commande.routes')(app);
+require('../routes/lignecommande.routes')(app);
+// require('../routes/categorie.routes')(app);
+require('../routes/produit.routes')(app);
+// listen for requests
 
-				console.log("added 'transporteur' to roles collection");
-			});
-
-			new Role({
-				name: 'grossiste',
-			}).save((err) => {
-				if (err) {
-					console.log('error', err);
-				}
-
-				console.log("added 'grossiste' to roles collection");
-			});
-
-			new Role({
-				name: 'admin',
-			}).save((err) => {
-				if (err) {
-					console.log('error', err);
-				}
-
-				console.log("added 'admin' to roles collection");
-			});
-
-			new Role({
-				name: 'responsable',
-			}).save((err) => {
-				if (err) {
-					console.log('error', err);
-				}
-
-				console.log("added 'responsable' to roles collection");
-			});
-		}
-	});
-}
+// routes
+require('../routes/auth.routes')(app);
+require('../routes/user.routes')(app);
