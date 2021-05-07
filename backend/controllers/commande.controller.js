@@ -1,8 +1,8 @@
 const Commande = require('../models/commande.model');
 const fs = require('fs');
 const path = require('path');
-
-const p = path.join('./', 'data', 'produit.json');
+const appDir = path.dirname(require.main.filename);
+const p = path.join(appDir, '../', 'data', 'produit.json');
 exports.getPriceById = (id) => {
 	User.find({ idProd: 'Admin' })
 		.then((users) => {
@@ -15,9 +15,6 @@ exports.getPriceById = (id) => {
 		});
 };
 
-exports.test = (id) => {
-	console.log('-------------------');
-};
 // Create and Save a new Admin
 exports.genererCommande = async (req, res) => {
 	try {
@@ -39,6 +36,7 @@ exports.genererCommande = async (req, res) => {
 				etatPayCom: req.body.etatPayCom || 'Non Payée',
 				prixHt: req.body.prixHt || cart.totalPrice,
 				prixTTC: req.body.prixTTC || cart.totalPrice + cart.totalPrice * 0.19,
+				grossistename: req.body.grossistename || 'hamadi',
 				tva: req.body.tva || 0.19,
 			});
 			console.log(commande);

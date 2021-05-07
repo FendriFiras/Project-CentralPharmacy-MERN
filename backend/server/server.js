@@ -56,8 +56,9 @@ const Role = db.role;
 //require('./app/routes/admin.routes')(app);
 require('../routes/commande.routes')(app);
 require('../routes/lignecommande.routes')(app);
-// require('../routes/categorie.routes')(app);
+require('../routes/categorie.routes')(app);
 require('../routes/produit.routes')(app);
+
 // listen for requests
 
 // routes
