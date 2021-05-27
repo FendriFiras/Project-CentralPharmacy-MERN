@@ -23,6 +23,7 @@ exports.save = (req, res) => {
 		} else {
 			cart.products.push({ idProd: lc.idProd, prodPrice: lc.prodPrice, qte: lc.qte });
 		}
+		//calcul
 		cart.totalPrice = cart.totalPrice + lc.prodPrice * lc.qte;
 
 		fs.writeFile(p, JSON.stringify(cart), (err) => {

@@ -13,7 +13,6 @@ import './assets/plugins/nucleo/css/nucleo.css';
 
 import './assets/scss/argon-dashboard-react.scss';
 const App = () => {
-	// localStorage.setItem('isLoggedIn', false);
 	const init = localStorage.getItem('isLoggedIn');
 	const convert = (init) => {
 		if (init === 'false') {
@@ -35,9 +34,6 @@ const App = () => {
 	}, []);
 
 	let routes;
-	// useEffect(() => {
-	// 	localStorage.setItem('isLoggedIn', isLoggedIn);
-	// }, [isLoggedIn]);
 	if (!isLoggedIn) {
 		routes = (
 			<Switch>
@@ -93,36 +89,19 @@ const App = () => {
 		} else {
 			routes = (
 				<Switch>
+					<Route path="/" exact>
+						<Auth />
+					</Route>
 					<Redirect to="/" />
 				</Switch>
 			);
 		}
-		// routes = (
-		// 	<Switch>
-		// 		<Route path="/admin">
-		// 			<Admin />
-		// 		</Route>
-		// 		<Route path="/grossiste">
-		// 			<Grossiste />
-		// 		</Route>
-		// 		<Route path="/responsable">
-		// 			<Responsable />
-		// 		</Route>
-		// 		<Route path="/transporteur">
-		// 			<Transporteur />
-		// 		</Route>
-
-		// 		<Redirect to="/auth" />
-		// 	</Switch>
-		// );
 	}
 
 	return (
 		<AuthContext.Provider value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}>
 			<JwtContext.Provider value={{ jwt, setJwt }}>
 				<Router>
-					{console.log('---------')}
-					{console.log(jwt)}
 					{console.log('---------')}
 					{console.log(init1)}
 

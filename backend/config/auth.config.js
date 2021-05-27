@@ -1,3 +1,3 @@
 module.exports = {
-	secret: 'bezkoder-secret-key',
+	secret: 'PFA-PROJCT-2021',
 };

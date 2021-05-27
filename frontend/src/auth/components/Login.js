@@ -25,7 +25,6 @@ import {
 const Login = () => {
 	const auth = useContext(AuthContext);
 	const { jwt, setJwt } = useContext(JwtContext);
-	const [refresh, setRefresh] = useState(false);
 
 	const [name, setName] = useState('');
 	const [password, setPassword] = useState('');
@@ -52,6 +51,7 @@ const Login = () => {
 				hasError = true;
 			}
 
+			//receving web tokens
 			const responseData = await response.json();
 
 			console.log(responseData);

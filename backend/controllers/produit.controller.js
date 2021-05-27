@@ -2,7 +2,7 @@ const Produit = require('../models/produit.model.js');
 const fs = require('fs');
 const path = require('path');
 const appDir = path.dirname(require.main.filename);
-const p = path.join(appDir, 'app', 'data', 'produit.json');
+const p = path.join(appDir, '../', 'data', 'produit.json');
 
 // Create and Save a new produit
 exports.save = (req, res) => {
@@ -30,13 +30,13 @@ exports.save = (req, res) => {
 };
 exports.findAll = (req, res) => {
 	fs.readFile(p, (err, fileContent) => {
-		console.log(JSON.parse(fileContent));
+		res.send(JSON.parse(fileContent));
 	});
 };
 
 exports.creerProduit = async (req, res) => {
 	try {
-		//note= new Produit(req.body);
+		//Note= new Produit(req.body);
 
 		var produit = new Produit({
 			idProd: req.body.idProd || 'Untitled',
@@ -55,7 +55,7 @@ exports.creerProduit = async (req, res) => {
 };
 // Retrieve and return all notes from the database.
 exports.afficherToutProduit = (req, res) => {
-	Note.find()
+	Produit.find()
 		.then((produits) => {
 			res.send(produits);
 		})

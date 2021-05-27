@@ -5,11 +5,6 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-//register view engine
-// app.set('view engine', 'ejs');
-
-//modified files holding the vues
-app.set('views', '../views');
 
 //midelware and static files
 app.use(express.static('public'));
@@ -52,15 +47,11 @@ mongoose
 const db = require('./../models');
 const Role = db.role;
 
-// Require Notes routes
-//require('./app/routes/admin.routes')(app);
+// routes
+// listen for requests
+require('../routes/auth.routes')(app);
+require('../routes/user.routes')(app);
 require('../routes/commande.routes')(app);
 require('../routes/lignecommande.routes')(app);
 require('../routes/categorie.routes')(app);
 require('../routes/produit.routes')(app);
-
-// listen for requests
-
-// routes
-require('../routes/auth.routes')(app);
-require('../routes/user.routes')(app);
