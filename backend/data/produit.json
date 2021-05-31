@@ -1,9 +1,1 @@
-{
-	"products": [
-		{ "idProd": 1, "prodPrice": 500, "qte": 1 },
-		{ "idProd": 656, "prodPrice": 800, "qte": 1 },
-		{ "idProd": 65, "prodPrice": 300, "qte": 2 },
-		{ "idProd": 8, "prodPrice": 700, "qte": 10 }
-	],
-	"totalPrice": null
-}
+{"products":[null,null,null,null,null,null,null,null,{"labelleProd":"FERVEX","prodPrice":3500,"qte":14},null],"totalPrice":428400}

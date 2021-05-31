@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 // reactstrap components
 import {
 	Card,
@@ -21,23 +22,41 @@ import HeaderGrossiste from '../../shared/components/Headers/HeaderGrossiste';
 const NouvelleCommande = (props) => {
 	const [category, setCategory] = useState([]);
 	const [produit, setProduit] = useState([]);
+	const [produitSelected, setProduitSelected] = useState('DOLIPRANE');
 	const [produitJson, setProduitJson] = useState({});
 	const [qte, setQte] = useState(0);
+	const [price, setPrice] = useState(5200);
 	const [selectedCategory, setSelectedCategory] = useState('Paracétamol');
+	const [render, setrender] = useState(true);
 
 	const handleAddrTypeChange = (e) => {
 		setSelectedCategory(e.target.value);
+	};
+	const handleProduit = (e) => {
+		setProduitSelected(e.target.value);
+		produit.map((produit) => {
+			if (produit.labelleProd === produitSelected) {
+				return setPrice(produit.prixUnit);
+			}
+		});
 	};
 
 	const handleQteChange = (e) => {
 		setQte(e.target.value);
 	};
 
+	const deleteHandler = async (e) => {
+		e.preventDefault();
+		const article = { labelleProd: produitSelected };
+		axios.post('http://localhost:3001/delete', article).then(setrender(false));
+	};
+
 	useEffect(() => {
 		categorieFetch();
 		produitFetch();
 		produitJsonFetch();
-	}, []);
+		setrender(true);
+	}, [render]);
 
 	const categorieFetch = async (event) => {
 		try {
@@ -85,21 +104,20 @@ const NouvelleCommande = (props) => {
 
 	const addProductFetch = (event) => {
 		event.preventDefault();
-		const requestOptions = {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', mode: 'no-cors' },
-			body: {
-				qte: { qte },
-			},
-		};
-		fetch('http://localhost:3001/lcs', requestOptions).then(console.log('hi'));
+
+		const article = { labelleProd: produitSelected, prodPrice: price, qte: qte };
+		axios.post('http://localhost:3001/lcs', article).then(setrender(false));
 	};
 	return (
 		<>
+			{console.log(price)}
 			{console.log(qte)}
-			{console.log(produitJson.products)}
+			{console.log('produitJson.totalPrice')}
+			{console.log(produitJson.totalPrice)}
+			{console.log('produitJson.totalPrice')}
 			{console.log(selectedCategory)}
-			{console.log(produit)}
+			{console.log('produit')}
+			{console.log(produitSelected)}
 			{console.log(category)}
 			<HeaderGrossiste />
 			{/* Page content */}
@@ -133,7 +151,12 @@ const NouvelleCommande = (props) => {
 											<FormGroup>
 												<Label>Produit</Label>
 												<InputGroup className="mb-4">
-													<Input type="select" name="produit">
+													<Input
+														type="select"
+														name="produit"
+														defaultValue={produitSelected}
+														onChange={handleProduit}
+													>
 														{category.map((categorie) => {
 															if (categorie.name == selectedCategory) {
 																return categorie.produits.map((idProduit) => {
@@ -182,7 +205,7 @@ const NouvelleCommande = (props) => {
 								<Table className="align-items-center table-flush" responsive>
 									<thead className="thead-light">
 										<tr>
-											<th scope="col">IdProduit </th>
+											<th scope="col">Label Produit </th>
 											<th scope="col">Quantité</th>
 											<th scope="col">Price</th>
 
@@ -192,19 +215,21 @@ const NouvelleCommande = (props) => {
 									<tbody>
 										{produitJson.products != undefined ? (
 											produitJson.products.map((produit) => {
-												return (
-													<tr>
-														<td>{produit.idProd}</td>
-														<td>{produit.qte}</td>
-														<td>{produit.prodPrice}</td>
+												if (produit != null) {
+													return (
+														<tr>
+															<td>{produit.labelleProd}</td>
+															<td>{produit.qte}</td>
+															<td>{produit.prodPrice}</td>
 
-														<td>
-															<Button outline color="danger">
-																supprimer
-															</Button>
-														</td>
-													</tr>
-												);
+															<td>
+																<Button outline color="danger" onClick={deleteHandler}>
+																	supprimer
+																</Button>
+															</td>
+														</tr>
+													);
+												}
 											})
 										) : (
 											<tr>

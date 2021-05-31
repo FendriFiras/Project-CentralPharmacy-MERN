@@ -6,7 +6,7 @@ const appDir = path.dirname(require.main.filename);
 const p = path.join(appDir, '../', 'data', 'produit.json');
 exports.save = (req, res) => {
 	var lc = new LigneCommande({
-		idProd: req.body.idProd || 0,
+		labelleProd: req.body.labelleProd || 'Un labelleProdd',
 		prodPrice: req.body.prodPrice || 0,
 		qte: req.body.qte || 0,
 	});
@@ -21,11 +21,10 @@ exports.save = (req, res) => {
 		if (existingProduct) {
 			cart.products[existingProductIndex].qte = cart.products[existingProductIndex].qte + 1;
 		} else {
-			cart.products.push({ idProd: lc.idProd, prodPrice: lc.prodPrice, qte: lc.qte });
+			cart.products.push({ labelleProd: lc.labelleProd, prodPrice: lc.prodPrice, qte: lc.qte });
 		}
 		//calcul
 		cart.totalPrice = cart.totalPrice + lc.prodPrice * lc.qte;
-
 		fs.writeFile(p, JSON.stringify(cart), (err) => {
 			///////////////////////////////////////////////////////  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			if (err) console.log(err);
@@ -37,7 +36,6 @@ exports.save = (req, res) => {
 exports.creerL = async (req, res) => {
 	try {
 		var lc = new LigneCommande({
-			idProd: req.body.idProd || 0,
 			qte: req.body.qte || 0,
 		});
 
@@ -78,11 +76,20 @@ exports.modifier = async (request, response) => {
 };
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Delete a note with the specified noteId in the request
-exports.supprimer = async (request, response) => {
-	try {
-		var result = await Depot.deleteOne({ _id: request.params.depotId }).exec();
-		response.send(result);
-	} catch (error) {
-		response.status(500).send(error);
-	}
+exports.supprimer = async (req, res) => {
+	fs.readFile(p, (err, fileContent) => {
+		cart = JSON.parse(fileContent);
+		let product = cart.products;
+		for (let index = 0; index < product.length; index++) {
+			let element = product[index];
+			if (element != null && element.labelleProd === req.body.labelleProd) {
+				delete product[index];
+				fs.writeFile(p, JSON.stringify(cart), (err) => {
+					if (err) console.log(err);
+				});
+			}
+		}
+
+		//calcul
+	});
 };

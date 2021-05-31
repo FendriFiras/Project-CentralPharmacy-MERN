@@ -32,7 +32,6 @@ const Login = () => {
 	const authSubmitHandler = async (event) => {
 		event.preventDefault();
 		auth.login();
-		localStorage.setItem('isLoggedIn', true);
 		try {
 			const newUser = {
 				username: name,
@@ -53,6 +52,9 @@ const Login = () => {
 
 			//receving web tokens
 			const responseData = await response.json();
+			if (responseData.message == undefined) {
+				localStorage.setItem('isLoggedIn', true);
+			}
 
 			console.log(responseData);
 

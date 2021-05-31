@@ -28,7 +28,7 @@ exports.save = (req, res) => {
 		});
 	});
 };
-exports.findAll = (req, res) => {
+exports.findAll = async (req, res) => {
 	fs.readFile(p, (err, fileContent) => {
 		res.send(JSON.parse(fileContent));
 	});
