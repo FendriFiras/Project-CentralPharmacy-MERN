@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 
 const ProduitSchema = mongoose.Schema(
 	{
-		idProd: String,
 		labelleProd: String,
 		mode: String,
 		dose: String,
