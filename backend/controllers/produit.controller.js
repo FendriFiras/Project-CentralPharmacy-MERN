@@ -7,7 +7,7 @@ const p = path.join(appDir, '../', 'data', 'produit.json');
 // Create and Save a new produit
 exports.save = (req, res) => {
 	var produit = new Produit({
-		idProd: req.body.idProd || 'Untitled',
+
 		labelleProd: req.body.labelleProd || 'Un labelleProdd',
 		mode: req.body.mode || 'Unmoded',
 		dose: req.body.dose || 'undosed',
@@ -21,7 +21,6 @@ exports.save = (req, res) => {
 			products = JSON.parse(fileContent);
 		}
 		products.push(produit);
-
 		fs.writeFile(p, JSON.stringify(products), (err) => {
 			///////////////////////////////////////////////////////  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			if (err) console.log(err);
@@ -39,7 +38,7 @@ exports.creerProduit = async (req, res) => {
 		//Note= new Produit(req.body);
 
 		var produit = new Produit({
-			idProd: req.body.idProd || 'Untitled',
+	
 			labelleProd: req.body.labelleProd || 'Un labelleProdd',
 			mode: req.body.mode || 'Unmoded',
 			dose: req.body.dose || 'undosed',
@@ -74,7 +73,6 @@ exports.afficherToutProduit = (req, res) => {
 exports.modifierProduit = async (request, response) => {
 	try {
 		var n = await Produit.findById({ _id: request.params.produitId }).exec();
-		idProd: req.body.idProd || 'Untitled';
 		labelleProd: req.body.labelleProd || 'Un labelleProdd';
 		mode: req.body.mode || 'Unmoded';
 		dose: req.body.dose || 'undosed';

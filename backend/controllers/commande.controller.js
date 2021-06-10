@@ -43,7 +43,6 @@ exports.genererCommande = async (req, res) => {
 				if (err) console.log(err);
 			});
 			var commande = new Commande({
-				idCom: req.body.idCom || 0,
 				prodAchetes: req.body.prodAchetes || cart.products,
 				dateCom: req.body.dateCom || '01/06/2023',
 				etatCom: req.body.etatCom || 'Non livrée',

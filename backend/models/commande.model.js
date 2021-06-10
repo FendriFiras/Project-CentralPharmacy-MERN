@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const CommandeSchema = mongoose.Schema(
 	{
-		idCom: Number,
+
 		prodAchetes: Array,
 		dateCom: Date,
 		etatCom: String,
