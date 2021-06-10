@@ -1,4 +1,4 @@
-const User = require('../models/user.model.js');
+const User = require('../models/User.js');
 
 // Create and Save a new Grossiste
 

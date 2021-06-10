@@ -55,3 +55,7 @@ require('../routes/commande.routes')(app);
 require('../routes/lignecommande.routes')(app);
 require('../routes/categorie.routes')(app);
 require('../routes/produit.routes')(app);
+require('../routes/depot.routes')(app);
+require('../routes/grossiste.routes')(app);
+require('../routes/transporteur.routes')(app);
+require('../routes/affectation.routes')(app);

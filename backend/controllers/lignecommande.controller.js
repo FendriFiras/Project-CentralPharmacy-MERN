@@ -1,9 +1,14 @@
+
+
 const LigneCommande = require('../models/lignecommande.model.js');
+const Affectation = require('../models/affectation.model.js');
 const Produit = require('../models/produit.model.js');
 const fs = require('fs');
 const path = require('path');
 const appDir = path.dirname(require.main.filename);
 const p = path.join(appDir, '../', 'data', 'produit.json');
+const pp = path.join(appDir, '../', 'data', 'transport.json');
+
 exports.save = (req, res) => {
 	var lc = new LigneCommande({
 		labelleProd: req.body.labelleProd || 'Un labelleProdd',
@@ -31,6 +36,67 @@ exports.save = (req, res) => {
 		});
 	});
 };
+
+
+exports.saveAff = (req, res) => {
+	try{
+	var aff = new Affectation({
+		chauffeur: req.body.chauffeur || 'chifour',
+		commandes: req.body.commandes || [],
+		
+	});
+
+	fs.readFile(pp, (err, fileContent) => {
+	
+		let cart = [{ chauffeur: "", commandes:[] }];
+		if (!err) {
+			if (Object.keys(fileContent).length != 0){
+				cart = JSON.parse(fileContent);
+
+			}
+			
+			
+		}
+		//const existingCommandIndex = cart.commandes.findIndex((com) => com === '_id');
+		//const existingCommand = cart.commandes[existingCommandIndex];
+		//if (existingCommand) {
+			//cart.commandes[existingCommandIndex].qte = cart.products[existingCommandIndex].qte + 1;
+		//} else {s
+	
+		cart.push({ chauffeur: aff.chauffeur, commandes: aff.commandes });
+		
+		//}
+		fs.writeFile(pp, JSON.stringify(cart), (err) => {
+			///////////////////////////////////////////////////////  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			if (err) console.log(err);
+		});
+	});
+
+}catch (err){
+	res.status(500).send(error);
+}
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Create and Save a new Note
 exports.creerL = async (req, res) => {

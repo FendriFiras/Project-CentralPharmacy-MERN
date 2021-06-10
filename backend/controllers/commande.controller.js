@@ -3,6 +3,20 @@ const fs = require('fs');
 const path = require('path');
 const appDir = path.dirname(require.main.filename);
 const p = path.join(appDir, '../', 'data', 'produit.json');
+const pp = path.join(appDir, '../', 'data', 'transport.json');
+
+
+
+
+
+
+
+
+
+
+
+
+
 exports.getPriceById = (id) => {
 	User.find({ idProd: 'Admin' })
 		.then((users) => {
@@ -50,29 +64,82 @@ exports.genererCommande = async (req, res) => {
 	}
 };
 
+
+
+exports.affecterCommande = async (req, res) => {
+	try {
+		fs.readFile(pp, (err, fileContent) => {
+			let cartt = { commande: [], chauffeur: ""};
+			if (!err) {
+				cartt = JSON.parse(fileContent);
+			}
+
+			fs.writeFile(pp, JSON.stringify(cartt), (err) => {
+				///////////////////////////////////////////////////////  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				if (err) console.log(err);
+			});
+
+			console.log(cartt);
+
+
+		});
+	} catch (error) {
+		res.status(500).send(error);
+	}
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
 // Retrieve and return all Admins from the database.
-exports.afficherToutA = (req, res) => {
-	User.find({ role: 'Admin' })
-		.then((users) => {
-			res.send(users);
+exports.afficherTout = (req, res) => {
+	Commande.find()
+		.then((commandes) => {
+			res.send(commandes);
 		})
 		.catch((err) => {
 			res.status(500).send({
-				message: err.message || 'Some error occurred while retrieving Admins.',
+				message: err.message || 'Some error occurred while retrieving commands.',
 			});
 		});
 };
 
+
+  
+
+
+
+
+
+
+
 // Delete a User with the specified userId in the request
-exports.supprimerU = async (request, response) => {
+exports.supprimer = async (request, response) => {
 	try {
-		var result = await User.deleteOne({ _id: request.params.userId }).exec();
+		var result = await Commande.deleteOne({ _id: request.params.commandeId }).exec();
 		response.send(result);
 	} catch (error) {
 		response.status(500).send(error);
 	}
 };
+
 
 exports.modifierU = async (request, response) => {
 	try {

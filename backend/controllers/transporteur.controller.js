@@ -1,21 +1,17 @@
-const User = require('../models/user.model.js');
+const User = require('../models/User.js');
 
 // Create and Save a new Transporter
 exports.creerT=  async(req, res) =>{
     try {
 
   var transporteur = new User({
-       idUser:req.body.idUser||0,
-       firstName :req.body.firstName||"Empty Content", 
-       lastName:req.body.lastName||"Untitled",
-       email :req.body.email||"Empty Content",
+       username:req.body.username||0,
+       email :req.body.email||"Empty Content", 
        password:req.body.password||"Untitled",
-       adress :req.body.adress||"Empty Content", 
-       cin:req.body.cin||0,
-       role :req.body.role||"Transporteur"
-
+       roles :req.body.roles||["6090ceba191dcb371c32008a"]
 
 });
+
 
        var result = await transporteur.save();
        res.send(result);
@@ -29,8 +25,8 @@ catch (error) {   res.status(500).send(error);
 
   // Retrieve and return all Transporters from the database.
   exports.afficherToutT = (req, res) => {
-    
-    User.find({"role":"Transporteur"})
+   
+    User.find({"roles":["6090ceba191dcb371c32008a"]})
       .then(users => {
           res.send(users);
       }).catch(err => {
@@ -39,6 +35,7 @@ catch (error) {   res.status(500).send(error);
           });
       });
   };
+  
 
 
 

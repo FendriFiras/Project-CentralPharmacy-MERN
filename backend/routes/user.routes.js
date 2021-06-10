@@ -16,4 +16,5 @@ module.exports = function (app) {
 	app.get('/transporteur', [authJwt.verifyToken, authJwt.isTransporteur], controller.transporteur);
 
 	app.get('/grossiste', [authJwt.verifyToken, authJwt.isGrossiste], controller.grossiste);
+	
 };

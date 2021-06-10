@@ -1,11 +1,11 @@
 module.exports = (app) => {
-	const commandes = require('../controllers/commande.controller.js');
+	const transporteurs = require('../controllers/transporteur.controller.js');
 
 	// Create a new Note
 	//   app.post('/notes', notes.creer);
-	app.post('/commandes', commandes.genererCommande);
+	app.post('/transporteurs', transporteurs.creerT);
 	// Retrieve all Notes
-    app.get('/commandes', commandes.afficherTout);
+	app.get('/transporteurs', transporteurs.afficherToutT);
 
 	// Retrieve a single Note with noteId
 	//app.get('/notes/:noteId', notes.afficherUn);
@@ -14,5 +14,5 @@ module.exports = (app) => {
 	//     app.put('/notes/:noteId', notes.modifier);
 
 	// Delete a Note with noteId
-	app.delete('/commandes', commandes.supprimer);
+	//app.post('/delete', transporteurs.supprimer);
 };
