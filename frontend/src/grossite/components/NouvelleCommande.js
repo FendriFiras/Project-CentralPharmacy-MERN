@@ -158,7 +158,7 @@ const NouvelleCommande = (props) => {
 														onChange={handleProduit}
 													>
 														{category.map((categorie) => {
-															if (categorie.name == selectedCategory) {
+															if (categorie.name === selectedCategory) {
 																return categorie.produits.map((idProduit) => {
 																	return produit
 																		.filter(

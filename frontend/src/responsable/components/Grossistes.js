@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import Modal from 'react-modal';
 import {
 	Badge,
 	Card,
@@ -22,14 +23,7 @@ import {
 // core components
 import Header from '../../shared/components/Headers/HeaderSimple';
 
-
-
-
-
-
-
 const Depots = (props) => {
-	
 	const [depot, setDepot] = useState([]);
 	useEffect(() => {
 		depotsFetch();
@@ -42,18 +36,14 @@ const Depots = (props) => {
 					'Content-Type': 'application/json',
 				},
 			});
-			
+
 			const responseData = await response.json();
-			
+
 			setDepot(responseData);
 		} catch (error) {
 			alert(error.message || 'Something went wrong!');
 		}
 	};
-	
-
-
-
 
 	return (
 		<>
@@ -69,15 +59,9 @@ const Depots = (props) => {
 								<h3 className="mb-0"> Liste de Depots</h3>
 							</CardHeader>
 
-
-
-
-
-
-
 							<Table className="align-items-center table-flush" responsive>
 								<thead className="thead-light">
-								<tr>
+									<tr>
 										<th scope="col"> id Depot</th>
 										<th scope="col">name</th>
 										<th scope="col">adress</th>
@@ -86,31 +70,17 @@ const Depots = (props) => {
 									</tr>
 								</thead>
 								<tbody>
-
-											{depot.map(   (dep) => {
-
-														return(
-															<tr>
-															<td>{dep.idDepot}</td>
-															<td>{dep.name}</td>
-															<td>{dep.adress}</td>
-															<td>{dep.location}</td>
-															<td>{dep.idResponsable}</td>
-															
-										
-														</tr>
-														); 
-														
-															
-														})}
-
-
-														
-
-
-
-
-
+									{depot.map((dep) => {
+										return (
+											<tr>
+												<td>{dep.idDepot}</td>
+												<td>{dep.name}</td>
+												<td>{dep.adress}</td>
+												<td>{dep.location}</td>
+												<td>{dep.idResponsable}</td>
+											</tr>
+										);
+									})}
 								</tbody>
 							</Table>
 							<CardFooter className="py-4">

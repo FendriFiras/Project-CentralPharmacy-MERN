@@ -10,8 +10,8 @@ module.exports = (app) => {
 	// Retrieve a single Note with noteId
 	//app.get('/notes/:noteId', notes.afficherUn);
 
-	// Update a Note with noteId
-	//     app.put('/notes/:noteId', notes.modifier);
+	//Update
+	app.post('/update', lcs.modifier);
 
 	// Delete a Note with noteId
 	app.post('/delete', lcs.supprimer);

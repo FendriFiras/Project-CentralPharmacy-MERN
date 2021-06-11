@@ -1,7 +1,6 @@
-
-
 const LigneCommande = require('../models/lignecommande.model.js');
 const Affectation = require('../models/affectation.model.js');
+const Commande = require('../models/commande.model.js');
 const Produit = require('../models/produit.model.js');
 const fs = require('fs');
 const path = require('path');
@@ -37,66 +36,38 @@ exports.save = (req, res) => {
 	});
 };
 
-
 exports.saveAff = (req, res) => {
-	try{
-	var aff = new Affectation({
-		chauffeur: req.body.chauffeur || 'chifour',
-		commandes: req.body.commandes || [],
-		
-	});
-
-	fs.readFile(pp, (err, fileContent) => {
-	
-		let cart = [{ chauffeur: "", commandes:[] }];
-		if (!err) {
-			if (Object.keys(fileContent).length != 0){
-				cart = JSON.parse(fileContent);
-
-			}
-			
-			
-		}
-		//const existingCommandIndex = cart.commandes.findIndex((com) => com === '_id');
-		//const existingCommand = cart.commandes[existingCommandIndex];
-		//if (existingCommand) {
-			//cart.commandes[existingCommandIndex].qte = cart.products[existingCommandIndex].qte + 1;
-		//} else {s
-	
-		cart.push({ chauffeur: aff.chauffeur, commandes: aff.commandes });
-		
-		//}
-		fs.writeFile(pp, JSON.stringify(cart), (err) => {
-			///////////////////////////////////////////////////////  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-			if (err) console.log(err);
+	try {
+		var aff = new Affectation({
+			chauffeur: req.body.chauffeur || 'chifour',
+			commandes: req.body.commandes || [],
 		});
-	});
 
-}catch (err){
-	res.status(500).send(error);
-}
+		fs.readFile(pp, (err, fileContent) => {
+			let cart = [];
+			if (!err) {
+				if (Object.keys(fileContent).length != 0) {
+					cart = JSON.parse(fileContent);
+				}
+			}
+			//const existingCommandIndex = cart.commandes.findIndex((com) => com === '_id');
+			//const existingCommand = cart.commandes[existingCommandIndex];
+			//if (existingCommand) {
+			//cart.commandes[existingCommandIndex].qte = cart.products[existingCommandIndex].qte + 1;
+			//} else {s
+
+			cart.push({ chauffeur: aff.chauffeur, commandes: aff.commandes });
+
+			//}
+			fs.writeFile(pp, JSON.stringify(cart), (err) => {
+				///////////////////////////////////////////////////////  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				if (err) console.log(err);
+			});
+		});
+	} catch (err) {
+		res.status(500).send(error);
+	}
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Create and Save a new Note
 exports.creerL = async (req, res) => {
@@ -112,16 +83,15 @@ exports.creerL = async (req, res) => {
 	}
 };
 // Retrieve and return all depots from the database.
-exports.afficherTout = (req, res) => {
-	Depot.find()
-		.then((depots) => {
-			res.send(depots);
-		})
-		.catch((err) => {
-			res.status(500).send({
-				message: err.message || 'Some error occurred while retrieving depots.',
-			});
-		});
+exports.afficherTout = async (req, res) => {
+	fs.readFile(pp, (err, fileContent) => {
+		let cart = [];
+		if (!err) {
+			if (Object.keys(fileContent).length != 0) {
+				res.send(JSON.parse(fileContent));
+			}
+		}
+	});
 };
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -129,13 +99,11 @@ exports.afficherTout = (req, res) => {
 
 exports.modifier = async (request, response) => {
 	try {
-		var d = await Depot.findById({ _id: request.params.depotId }).exec();
-
-		d.idDepot = req.body.idProd || 'Updated Depot';
-		d.qte = req.body.qte || 'Empty Content';
-
-		var result = await d.save();
-		response.send(result);
+		Commande.findById(ObjectId(request.body.id)).then((commande) => {
+			commande.etatCom = 'Livrée';
+			commande.etatPayCom = 'Payée';
+			commande.save();
+		});
 	} catch (error) {
 		response.status(400).send('unable to update the database');
 	}
