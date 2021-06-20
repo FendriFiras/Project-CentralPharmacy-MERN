@@ -16,10 +16,12 @@ exports.save = (req, res) => {
 	});
 
 	fs.readFile(p, (err, fileContent) => {
+		console.log("hammadiiiiiiiii");
 		let cart = { products: [], totalPrice: 0 };
 		if (!err) {
 			if (Object.keys(fileContent).length != 0) {
 				cart = JSON.parse(fileContent);
+				console.log("hammadiiiiiiiii222222222222");
 			}
 		
 		}
@@ -28,6 +30,7 @@ exports.save = (req, res) => {
 		if (existingProduct) {
 			cart.products[existingProductIndex].qte = cart.products[existingProductIndex].qte + 1;
 		} else {
+			console.log("hammadiiiiiiiii33333");
 			cart.products.push({ labelleProd: lc.labelleProd, prodPrice: lc.prodPrice, qte: lc.qte });
 		}
 		//calcul
@@ -115,7 +118,9 @@ exports.modifier = async (request, response) => {
 // Delete a note with the specified noteId in the request
 exports.supprimer = async (req, res) => {
 	fs.readFile(p, (err, fileContent) => {
+		if (Object.keys(fileContent).length != 0) {
 		cart = JSON.parse(fileContent);
+		}
 		let product = cart.products;
 		for (let index = 0; index < product.length; index++) {
 			let element = product[index];
