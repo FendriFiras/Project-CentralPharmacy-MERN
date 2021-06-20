@@ -18,7 +18,10 @@ exports.save = (req, res) => {
 	fs.readFile(p, (err, fileContent) => {
 		let cart = { products: [], totalPrice: 0 };
 		if (!err) {
-			cart = JSON.parse(fileContent);
+			if (Object.keys(fileContent).length != 0) {
+				cart = JSON.parse(fileContent);
+			}
+		
 		}
 		const existingProductIndex = cart.products.findIndex((prod) => prod === 'idProd');
 		const existingProduct = cart.products[existingProductIndex];

@@ -28,8 +28,14 @@ exports.save = (req, res) => {
 	});
 };
 exports.findAll = async (req, res) => {
+
+
 	fs.readFile(p, (err, fileContent) => {
-		res.send(JSON.parse(fileContent));
+		if (!err) {
+			if (Object.keys(fileContent).length != 0) {
+				res.send(JSON.parse(fileContent));
+			}
+		}
 	});
 };
 
