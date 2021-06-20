@@ -22,19 +22,23 @@ exports.save = (req, res) => {
 			if (Object.keys(fileContent).length != 0) {
 				cart = JSON.parse(fileContent);
 				console.log("hammadiiiiiiiii222222222222");
-			}
+			
 		
-		}
-		const existingProductIndex = cart.products.findIndex((prod) => prod === 'idProd');
+				
+		const existingProductIndex = cart.products.findIndex(x => x.labelleProd === lc.labelleProd);
+		
+		console.log(existingProductIndex);
 		const existingProduct = cart.products[existingProductIndex];
-		if (existingProduct) {
-			cart.products[existingProductIndex].qte = cart.products[existingProductIndex].qte + 1;
+		if (existingProductIndex != -1) {
+			cart.products[existingProductIndex].qte = cart.products[existingProductIndex].qte + lc.qte;
 		} else {
 			console.log("hammadiiiiiiiii33333");
 			cart.products.push({ labelleProd: lc.labelleProd, prodPrice: lc.prodPrice, qte: lc.qte });
 		}
+	
 		//calcul
 		cart.totalPrice = cart.totalPrice + lc.prodPrice * lc.qte;
+	}}
 		fs.writeFile(p, JSON.stringify(cart), (err) => {
 			///////////////////////////////////////////////////////  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			if (err) console.log(err);
