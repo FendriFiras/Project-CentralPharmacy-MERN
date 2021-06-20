@@ -24,7 +24,7 @@ exports.save = (req, res) => {
 				console.log("hammadiiiiiiiii222222222222");
 			
 		
-				
+	
 		const existingProductIndex = cart.products.findIndex(x => x.labelleProd === lc.labelleProd);
 		
 		console.log(existingProductIndex);
@@ -121,6 +121,7 @@ exports.modifier = async (request, response) => {
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Delete a note with the specified noteId in the request
 exports.supprimer = async (req, res) => {
+	let cart=[]
 	fs.readFile(p, (err, fileContent) => {
 		if (Object.keys(fileContent).length != 0) {
 		cart = JSON.parse(fileContent);
@@ -129,7 +130,14 @@ exports.supprimer = async (req, res) => {
 		for (let index = 0; index < product.length; index++) {
 			let element = product[index];
 			if (element != null && element.labelleProd === req.body.labelleProd) {
-				delete product[index];
+				console.log(product[index].qte);
+				//
+
+				
+
+				cart.totalPrice=cart.totalPrice-(product[index].prodPrice*product[index].qte);
+
+				product.splice(index, 1);
 				fs.writeFile(p, JSON.stringify(cart), (err) => {
 					if (err) console.log(err);
 				});
