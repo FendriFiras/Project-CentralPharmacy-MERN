@@ -31,7 +31,7 @@ catch (error) {   res.status(500).send(error);
 // Retrieve and return all Grossistes from the database.
 exports.afficherToutG = (req, res) => {
     
-    User.find({"role":"Grossistes"})
+    User.find({ roles: ['6090c9e105e3bb1be0be9f33'] })
       .then(users => {
           res.send(users);
       }).catch(err => {
