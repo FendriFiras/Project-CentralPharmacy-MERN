@@ -43,6 +43,8 @@ const Commandes = (props) => {
 	const [transporteur, setTransporteur] = useState([]);
 	const [selectedCommande, setSelectedCommande] = useState();
 	const [selectedTransporteur, setSelectedTransporteur] = useState();
+	
+
 	const handleChange1 = (e) => {
 		setSelectedTransporteur(e.target.value);
 	};
@@ -52,11 +54,12 @@ const Commandes = (props) => {
 
 	useEffect(() => {
 		commandesFetch();
+		
 
 		transporteursFetch();
-
+		
 		setrender(true);
-	}, []);
+	}, [render]);
 	const commandesFetch = async (event) => {
 		try {
 			const response = await fetch('http://localhost:3001/commandes', {

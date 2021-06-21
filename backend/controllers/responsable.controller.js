@@ -1,4 +1,5 @@
 // Create and Save a new Responsable
+const User = require('../models/User.js');
 exports.creerR=  async(req, res) =>{
     try {
 
@@ -22,23 +23,23 @@ catch (error) {   res.status(500).send(error);
 };
 };
 
-const User = require('../models/user.model.js');
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
 // Retrieve and return all Responsables from the database.
-exports.afficherToutR = (req, res) => {
-    
-    User.find({"role":"Responsable"})
-      .then(users => {
-          res.send(users);
-      }).catch(err => {
-          res.status(500).send({
-              message: err.message || "Some error occurred while retrieving Responsables."
-          });
-      });
-  };
 
+  exports.afficherToutR = (req, res) => {
+	User.find({ roles: ['6090ceba191dcb371c32008a'] })
+		.then((users) => {
+			res.send(users);
+		})
+		.catch((err) => {
+			res.status(500).send({
+				message: err.message || 'Some error occurred while retrieving Transporters.',
+			});
+		});
+};
 
 
   exports.modifierU = async(request, response) => {

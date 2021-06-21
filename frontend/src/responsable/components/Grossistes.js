@@ -56,7 +56,7 @@ const Depots = (props) => {
 					<div className="col">
 						<Card className="shadow">
 							<CardHeader className="border-0">
-								<h3 className="mb-0"> Liste de Depots</h3>
+								<h3 className="mb-0"> Liste des grossistes</h3>
 							</CardHeader>
 
 							<Table className="align-items-center table-flush" responsive>
