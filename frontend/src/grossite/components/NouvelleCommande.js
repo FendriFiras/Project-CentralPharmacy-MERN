@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 // reactstrap components
 import {
@@ -23,14 +24,19 @@ const NouvelleCommande = (props) => {
 	const [category, setCategory] = useState([]);
 	const [produit, setProduit] = useState([]);
 	const [produitSelected, setProduitSelected] = useState('DOLIPRANE');
+	const [etatSelected, setEtatSelected] = useState('A la Livraison');
 	const [produitJson, setProduitJson] = useState({});
 	const [qte, setQte] = useState(0);
 	const [price, setPrice] = useState(5200);
 	const [selectedCategory, setSelectedCategory] = useState('Paracétamol');
 	const [render, setrender] = useState(true);
+	const history = useHistory();
 
 	const handleAddrTypeChange = (e) => {
 		setSelectedCategory(e.target.value);
+	};
+	const handleEtatChange = (e) => {
+		setEtatSelected(e.target.value);
 	};
 	const handleProduit = (e) => {
 		setProduitSelected(e.target.value);
@@ -108,6 +114,18 @@ const NouvelleCommande = (props) => {
 		const article = { labelleProd: produitSelected, prodPrice: price, qte: qte };
 		axios.post('http://localhost:3001/lcs', article).then(setrender(false));
 	};
+
+	const commandeHandler = (event) => {
+		event.preventDefault();
+
+		const commande = {
+			etatPayCom:etatSelected
+		};
+		axios.post('http://localhost:3001/commandes', commande).then(() => {
+			setrender(false);
+			history.push('/grossiste/ListeCommandes')
+		});
+	}
 	return (
 		<>
 			{console.log(price)}
@@ -260,7 +278,8 @@ const NouvelleCommande = (props) => {
 												<Label>Total Prix</Label>
 												<h1>{produitJson.totalPrice}</h1>
 												<Label>Comment Voulez-Vous payer la Commande ?</Label>
-												<Input id="exampleFormControlInput1" type="select" name="payement">
+												<Input id="exampleFormControlInput1" type="select" name="payement" defaultValue={etatSelected}
+													onChange={handleEtatChange}>
 													<option>par chéque</option>
 													<option>A la Livraison</option>
 												</Input>
@@ -269,7 +288,7 @@ const NouvelleCommande = (props) => {
 									</Row>
 								</Form>
 							</CardText>
-							<Button color="primary">Commander</Button>
+							<Button onClick={commandeHandler} color="primary">Commander</Button>
 						</Card>
 					</Col>
 				</Row>

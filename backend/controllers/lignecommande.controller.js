@@ -16,23 +16,23 @@ exports.save = (req, res) => {
 	});
 
 	fs.readFile(p, (err, fileContent) => {
-		console.log("hammadiiiiiiiii");
+		
 		let cart = { products: [], totalPrice: 0 };
 		if (!err) {
 			if (Object.keys(fileContent).length != 0) {
 				cart = JSON.parse(fileContent);
-				console.log("hammadiiiiiiiii222222222222");
+				
 			
 		
 	
 		const existingProductIndex = cart.products.findIndex(x => x.labelleProd === lc.labelleProd);
 		
 		console.log(existingProductIndex);
-		const existingProduct = cart.products[existingProductIndex];
+		//const existingProduct = cart.products[existingProductIndex];
 		if (existingProductIndex != -1) {
 			cart.products[existingProductIndex].qte = cart.products[existingProductIndex].qte + lc.qte;
 		} else {
-			console.log("hammadiiiiiiiii33333");
+		
 			cart.products.push({ labelleProd: lc.labelleProd, prodPrice: lc.prodPrice, qte: lc.qte });
 		}
 	

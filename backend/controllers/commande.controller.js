@@ -5,18 +5,6 @@ const appDir = path.dirname(require.main.filename);
 const p = path.join(appDir, '../', 'data', 'produit.json');
 const pp = path.join(appDir, '../', 'data', 'transport.json');
 
-
-
-
-
-
-
-
-
-
-
-
-
 exports.getPriceById = (id) => {
 	User.find({ idProd: 'Admin' })
 		.then((users) => {

@@ -1,7 +1,7 @@
 import Index from './components/Dashboard';
 import NouvelleCommande from './components/NouvelleCommande';
 import Historique from './components/Historique';
-import MonCompte from './components/MonCompte';
+
 
 
 var routes = [
@@ -10,13 +10,6 @@ var routes = [
 		name: 'Acceuil',
 		icon: 'ni ni-tv-2 text-primary',
 		component: Index,
-		layout: '/grossiste',
-	},
-	{
-		path: '/MonCompte',
-		name: 'Mon Compte',
-		icon: 'ni ni-box-2 text-blue',
-		component: MonCompte,
 		layout: '/grossiste',
 	},
 	{

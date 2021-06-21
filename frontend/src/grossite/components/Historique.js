@@ -1,4 +1,5 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 // reactstrap components
 import {
@@ -19,7 +20,25 @@ import {
 import HeaderGrossiste from '../../shared/components/Headers/HeaderGrossiste';
 
 
+
 const Historique = () => {
+
+    const [commandes, setCommandes] = useState([]);
+    const [render, setrender] = useState(true);
+
+    useEffect(() => {
+        fetchCommandes();
+    }, [render]);
+    
+    const fetchCommandes = () => {
+        axios.get('http://localhost:3001/commandes')
+        .then(response => {
+            setCommandes(response.data)
+            console.log(response.data)
+            setrender(false)
+        })
+    }    
+
     return (
         <>
         <HeaderGrossiste/>
@@ -35,24 +54,22 @@ const Historique = () => {
                         <Table className="align-items-center table-flush" responsive>
                             <thead className="thead-light">
                                 <tr>
-                                    <th scope="col">Reference de la Commande </th>
                                     <th scope="col">Date</th>
                                     <th scope="col">Prix Net</th>
                                     <th scope="col">Mode Payement</th>
                                     <th scope="col">Etat de la Livraison</th>
-                                    <th scope="col">Etat de la Payement</th>
                                     <th scope="col" />
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>#123456789025d</td> 
-                                    <td>3/05/2021</td>
-                                    <td> 450.215D </td>
-                                    <td>Par Chéque </td>
-                                    <td>en cours</td>
-                                    <td >en cours</td>
-                                </tr> 
+                                { commandes.map(commande => {
+                                    return (<tr>
+                                        <td>{commande.createdAt.split('T')[0]}</td>
+                                        <td> {commande.prixTTC} </td>
+                                        <td> {commande.etatPayCom} </td>
+                                        <td>{commande.etatCom}</td>
+                                    </tr>)
+                                }) }
                            </tbody>
                         </Table>
                         <CardFooter className="py-4">
