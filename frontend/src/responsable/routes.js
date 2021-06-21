@@ -7,20 +7,8 @@ import Medicaments from './components/Medicaments';
 import Depots from './components/Depots';
 
 var routes = [
-	{
-		path: '/index',
-		name: 'Acceuil',
-		icon: 'ni ni-tv-2 text-primary',
-		component: Index,
-		layout: '/responsable',
-	},
-	{
-		path: '/depot',
-		name: 'Depots',
-		icon: 'ni ni-box-2 text-blue',
-		component: Depots,
-		layout: '/responsable',
-	},
+
+
 	{
 		path: '/Commandes',
 		name: 'Commandes',

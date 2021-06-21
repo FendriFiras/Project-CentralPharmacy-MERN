@@ -23,14 +23,14 @@ import {
 // core components
 import Header from '../../shared/components/Headers/HeaderSimple';
 
-const Depots = (props) => {
-	const [depot, setDepot] = useState([]);
+const Grossistes = (props) => {
+	const [grossiste, setGrossiste] = useState([]);
 	useEffect(() => {
-		depotsFetch();
+		grossistesFetch();
 	});
-	const depotsFetch = async (event) => {
+	const grossistesFetch = async (event) => {
 		try {
-			const response = await fetch('http://localhost:3001/depots', {
+			const response = await fetch('http://localhost:3001/grossistes', {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ const Depots = (props) => {
 
 			const responseData = await response.json();
 
-			setDepot(responseData);
+			setGrossiste(responseData);
 		} catch (error) {
 			alert(error.message || 'Something went wrong!');
 		}
@@ -47,7 +47,7 @@ const Depots = (props) => {
 
 	return (
 		<>
-			{console.log(depot)}
+			{console.log(grossiste)}
 			<Header />
 			{/* Page content */}
 			<Container className="mt--7" fluid>
@@ -62,22 +62,20 @@ const Depots = (props) => {
 							<Table className="align-items-center table-flush" responsive>
 								<thead className="thead-light">
 									<tr>
-										<th scope="col"> id Depot</th>
-										<th scope="col">name</th>
-										<th scope="col">adress</th>
-										<th scope="col">location</th>
-										<th scope="col">id Responsable</th>
+										<th scope="col"> Nom</th>
+										<th scope="col">email</th>
+										<th scope="col">Mot de passe</th>
+	
 									</tr>
 								</thead>
 								<tbody>
-									{depot.map((dep) => {
+									{grossiste.map((gro) => {
 										return (
 											<tr>
-												<td>{dep.idDepot}</td>
-												<td>{dep.name}</td>
-												<td>{dep.adress}</td>
-												<td>{dep.location}</td>
-												<td>{dep.idResponsable}</td>
+												<td>{gro.username}</td>
+												<td>{gro.email}</td>
+												<td>{gro.password}</td>
+
 											</tr>
 										);
 									})}
@@ -133,4 +131,4 @@ const Depots = (props) => {
 	);
 };
 
-export default Depots;
+export default Grossistes;
