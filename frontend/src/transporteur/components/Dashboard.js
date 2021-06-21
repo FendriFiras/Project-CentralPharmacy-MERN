@@ -12,6 +12,7 @@ const Dashboard = () => {
 	const [activeNav, setActiveNav] = useState(1);
 	const [chartExample1Data, setChartExample1Data] = useState('data1');
 	const [commandes, setCommandes] = useState();
+	var count = 0;
 	const name = localStorage.getItem('jwtName');
 	const toggleNavs = (e, index) => {
 		e.preventDefault();
@@ -60,14 +61,13 @@ const Dashboard = () => {
 													{commandes !== undefined &&
 														commandes.map((command) => {
 															if (command.chauffeur === name) {
-																return (
-																	<span className="d-none d-md-block">
-																		You have {command.commandes.length} Commandes
-																	</span>
-																);
+																count++;
+																return;
 															}
 														})}
-
+													<span className="d-none d-md-block">
+														You have {count} Commandes
+													</span>
 													<span className="d-md-none">M</span>
 												</NavLink>
 											</NavItem>
