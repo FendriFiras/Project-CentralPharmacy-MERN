@@ -38,8 +38,9 @@ const Commandes = (props) => {
 	const path = require('path');
 	const appDir = path.dirname(require.main.filename);
 	const p = path.join(appDir, './', 'data', 'transport.json');
-
+	const [commandes, setCommandes] = useState();
 	const [commande, setCommande] = useState([]);
+	const [selectedCommande, setSelectedCommande] = useState();
 	const [transporteur, setTransporteur] = useState([]);
 
 	const etatChangeHandler = (e) => {
@@ -49,6 +50,7 @@ const Commandes = (props) => {
 
 	useEffect(() => {
 		commandesFetch();
+		commandeJsonFetch();
 		setrender(true);
 	}, []);
 
@@ -57,6 +59,20 @@ const Commandes = (props) => {
 
 		// const article = { id:609474b00e73c9669c3c519a };
 		// axios.post('http://localhost:3001/lcs', article).then(setrender(false));
+	};
+	const commandeJsonFetch = async (event) => {
+		try {
+			const response = await fetch('http://localhost:3001/afectation', {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			});
+			const responseData = await response.json();
+			setCommandes(responseData);
+		} catch (error) {
+			alert(error.message || 'Something went wrong!');
+		}
 	};
 	const commandesFetch = async (event) => {
 		try {
@@ -79,6 +95,7 @@ const Commandes = (props) => {
 		<>
 			{console.log(transporteur)}
 			{console.log(commande)}
+			{console.log(selectedCommande)}
 			<Header />
 			{/* Page content */}
 
@@ -101,28 +118,35 @@ const Commandes = (props) => {
 										</tr>
 									</thead>
 									<tbody>
-										{commande.map((com) => {
-											return (
-												<tr>
-													<td>{com._id}</td>
-													<td>{com.dateCom.slice(0, 10)}</td>
-													<td>
-														{com.etatCom}
-														<Button
-															color="danger"
-															type="submit"
-															onClick={etatChangeHandler}
-														>
-															Livrée
-														</Button>
-													</td>
-													<td>{com.etatPayCom}</td>
-													<td>{com.prixHt}</td>
-													<td>{com.prixTTC}</td>
-													<td>{com.tva}</td>
-												</tr>
-											);
-										})}
+										{commandes !== undefined &&
+											commandes
+												.filter((command) => command.chauffeur.includes('kholoud'))
+												.map((filtered) =>
+													commande
+														.filter((commande) => commande._id === filtered.commandes[0])
+														.map((com) => {
+															return (
+																<tr>
+																	<td>{com._id}</td>
+																	<td>{com.dateCom.slice(0, 10)}</td>
+																	<td>
+																		{com.etatCom}
+																		<Button
+																			color="danger"
+																			type="submit"
+																			onClick={etatChangeHandler}
+																		>
+																			Livrée
+																		</Button>
+																	</td>
+																	<td>{com.etatPayCom}</td>
+																	<td>{com.prixHt}</td>
+																	<td>{com.prixTTC}</td>
+																	<td>{com.tva}</td>
+																</tr>
+															);
+														})
+												)}
 									</tbody>
 								</Table>
 							</CardText>
