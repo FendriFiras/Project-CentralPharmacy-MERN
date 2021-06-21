@@ -102,10 +102,9 @@ exports.livree = async (req, res) => {
 	} catch (error) {
 		res.status(400).send('Unable to update the database');
 	}
-	
 
-			//calcul
-		});
+	//calcul
+
 	////////////////////////////////////////////////////////
 };
 
