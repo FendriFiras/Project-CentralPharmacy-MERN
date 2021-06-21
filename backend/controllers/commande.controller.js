@@ -53,6 +53,18 @@ exports.genererCommande = async (req, res) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 exports.affecterCommande = async (req, res) => {
 	try {
 		fs.readFile(pp, (err, fileContent) => {

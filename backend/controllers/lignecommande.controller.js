@@ -46,13 +46,47 @@ exports.save = (req, res) => {
 	});
 };
 
-exports.saveAff = (req, res) => {
+exports.saveAff = async (req, res) => {
 	try {
 		var aff = new Affectation({
 			chauffeur: req.body.chauffeur || 'chifour',
 			commandes: req.body.commandes || [],
 		});
 
+
+
+		/////////////////////////////////////////////////////::
+
+		
+		try 
+		{
+			var c = await Commande.findById({ _id: aff.commandes }).exec();
+
+
+			c.etatCom=  'En cours';
+
+		var result = await c.save();
+		res.send(result);
+		
+	} catch (error) {
+		res.status(400).send('Unable to update the database');
+	}
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		////////////////////////////////////////////////////////
 		fs.readFile(pp, (err, fileContent) => {
 			let cart = [];
 			if (!err) {
