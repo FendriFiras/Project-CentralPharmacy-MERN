@@ -33,7 +33,7 @@ import {
 import Header from '../../shared/components/Headers/HeaderSimple';
 
 const Commandes = (props) => {
-	const [render, setrender] = useState(true);
+	const [render, setrender] = useState();
 	const fs = require('fs');
 	const path = require('path');
 	const appDir = path.dirname(require.main.filename);
@@ -52,13 +52,11 @@ const Commandes = (props) => {
 		commandesFetch();
 		commandeJsonFetch();
 		setrender(true);
-	}, []);
+	}, [render]);
 
-	const etatUpdate = async (event) => {
-		event.preventDefault();
-
-		// const article = { id:609474b00e73c9669c3c519a };
-		// axios.post('http://localhost:3001/lcs', article).then(setrender(false));
+	const etatUpdate = async (id) => {
+		const article = { id: id };
+		axios.post('http://localhost:3001/livree', article).then(setrender(false));
 	};
 	const commandeJsonFetch = async (event) => {
 		try {
@@ -95,7 +93,7 @@ const Commandes = (props) => {
 		<>
 			{console.log(transporteur)}
 			{console.log(commande)}
-			{console.log(selectedCommande)}
+			{console.log(render)}
 			<Header />
 			{/* Page content */}
 
@@ -126,24 +124,29 @@ const Commandes = (props) => {
 														.filter((commande) => commande._id === filtered.commandes[0])
 														.map((com) => {
 															return (
-																<tr>
-																	<td>{com._id}</td>
-																	<td>{com.dateCom.slice(0, 10)}</td>
-																	<td>
-																		{com.etatCom}
-																		<Button
-																			color="danger"
-																			type="submit"
-																			onClick={etatChangeHandler}
-																		>
-																			Livrée
-																		</Button>
-																	</td>
-																	<td>{com.etatPayCom}</td>
-																	<td>{com.prixHt}</td>
-																	<td>{com.prixTTC}</td>
-																	<td>{com.tva}</td>
-																</tr>
+																com.etatCom !== 'livreé' && (
+																	<tr>
+																		<td>{com._id}</td>
+																		<td>{com.dateCom.slice(0, 10)}</td>
+																		<td>
+																			{com.etatCom}
+																			<Button
+																				color="danger"
+																				type="submit"
+																				onClick={(e) => {
+																					e.preventDefault();
+																					etatUpdate(com._id);
+																				}}
+																			>
+																				Livrée
+																			</Button>
+																		</td>
+																		<td>{com.etatPayCom}</td>
+																		<td>{com.prixHt}</td>
+																		<td>{com.prixTTC}</td>
+																		<td>{com.tva}</td>
+																	</tr>
+																)
 															);
 														})
 												)}

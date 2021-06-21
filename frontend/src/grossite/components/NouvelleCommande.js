@@ -119,13 +119,13 @@ const NouvelleCommande = (props) => {
 		event.preventDefault();
 
 		const commande = {
-			etatPayCom:etatSelected
+			etatPayCom: etatSelected,
 		};
 		axios.post('http://localhost:3001/commandes', commande).then(() => {
 			setrender(false);
-			history.push('/grossiste/ListeCommandes')
+			history.push('/grossiste/ListeCommandes');
 		});
-	}
+	};
 	return (
 		<>
 			{console.log(price)}
@@ -278,8 +278,13 @@ const NouvelleCommande = (props) => {
 												<Label>Total Prix</Label>
 												<h1>{produitJson.totalPrice}</h1>
 												<Label>Comment Voulez-Vous payer la Commande ?</Label>
-												<Input id="exampleFormControlInput1" type="select" name="payement" defaultValue={etatSelected}
-													onChange={handleEtatChange}>
+												<Input
+													id="exampleFormControlInput1"
+													type="select"
+													name="payement"
+													defaultValue={etatSelected}
+													onChange={handleEtatChange}
+												>
 													<option>par chéque</option>
 													<option>A la Livraison</option>
 												</Input>
@@ -288,7 +293,9 @@ const NouvelleCommande = (props) => {
 									</Row>
 								</Form>
 							</CardText>
-							<Button onClick={commandeHandler} color="primary">Commander</Button>
+							<Button onClick={commandeHandler} color="primary">
+								Commander
+							</Button>
 						</Card>
 					</Col>
 				</Row>

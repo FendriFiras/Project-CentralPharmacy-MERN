@@ -16,29 +16,25 @@ exports.save = (req, res) => {
 	});
 
 	fs.readFile(p, (err, fileContent) => {
-		
 		let cart = { products: [], totalPrice: 0 };
 		if (!err) {
 			if (Object.keys(fileContent).length != 0) {
 				cart = JSON.parse(fileContent);
-				
-			
-		
-	
-		const existingProductIndex = cart.products.findIndex(x => x.labelleProd === lc.labelleProd);
-		
-		console.log(existingProductIndex);
-		//const existingProduct = cart.products[existingProductIndex];
-		if (existingProductIndex != -1) {
-			cart.products[existingProductIndex].qte = cart.products[existingProductIndex].qte + lc.qte;
-		} else {
-		
-			cart.products.push({ labelleProd: lc.labelleProd, prodPrice: lc.prodPrice, qte: lc.qte });
+
+				const existingProductIndex = cart.products.findIndex((x) => x.labelleProd === lc.labelleProd);
+
+				console.log(existingProductIndex);
+				//const existingProduct = cart.products[existingProductIndex];
+				if (existingProductIndex != -1) {
+					cart.products[existingProductIndex].qte = cart.products[existingProductIndex].qte + lc.qte;
+				} else {
+					cart.products.push({ labelleProd: lc.labelleProd, prodPrice: lc.prodPrice, qte: lc.qte });
+				}
+
+				//calcul
+				cart.totalPrice = cart.totalPrice + lc.prodPrice * lc.qte;
+			}
 		}
-	
-		//calcul
-		cart.totalPrice = cart.totalPrice + lc.prodPrice * lc.qte;
-	}}
 		fs.writeFile(p, JSON.stringify(cart), (err) => {
 			///////////////////////////////////////////////////////  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			if (err) console.log(err);
@@ -53,38 +49,18 @@ exports.saveAff = async (req, res) => {
 			commandes: req.body.commandes || [],
 		});
 
-
-
 		/////////////////////////////////////////////////////::
 
-		
-		try 
-		{
+		try {
 			var c = await Commande.findById({ _id: aff.commandes }).exec();
 
+			c.etatCom = 'En cours';
 
-			c.etatCom=  'En cours';
-
-		var result = await c.save();
-		res.send(result);
-		
-	} catch (error) {
-		res.status(400).send('Unable to update the database');
-	}
-		
-
-
-
-
-
-
-
-
-
-
-
-
-
+			var result = await c.save();
+			res.send(result);
+		} catch (error) {
+			res.status(400).send('Unable to update the database');
+		}
 
 		////////////////////////////////////////////////////////
 		fs.readFile(pp, (err, fileContent) => {
@@ -111,6 +87,26 @@ exports.saveAff = async (req, res) => {
 	} catch (err) {
 		res.status(500).send(error);
 	}
+};
+
+exports.livree = async (req, res) => {
+	/////////////////////////////////////////////////////::
+
+	try {
+		var c = await Commande.findById({ _id: req.body.id }).exec();
+
+		c.etatCom = 'livreé';
+		c.etatPayCom = 'payée';
+		var result = await c.save();
+		res.send(result);
+	} catch (error) {
+		res.status(400).send('Unable to update the database');
+	}
+	
+
+			//calcul
+		});
+	////////////////////////////////////////////////////////
 };
 
 // Create and Save a new Note
@@ -155,10 +151,10 @@ exports.modifier = async (request, response) => {
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Delete a note with the specified noteId in the request
 exports.supprimer = async (req, res) => {
-	let cart=[]
+	let cart = [];
 	fs.readFile(p, (err, fileContent) => {
 		if (Object.keys(fileContent).length != 0) {
-		cart = JSON.parse(fileContent);
+			cart = JSON.parse(fileContent);
 		}
 		let product = cart.products;
 		for (let index = 0; index < product.length; index++) {
@@ -167,9 +163,7 @@ exports.supprimer = async (req, res) => {
 				console.log(product[index].qte);
 				//
 
-				
-
-				cart.totalPrice=cart.totalPrice-(product[index].prodPrice*product[index].qte);
+				cart.totalPrice = cart.totalPrice - product[index].prodPrice * product[index].qte;
 
 				product.splice(index, 1);
 				fs.writeFile(p, JSON.stringify(cart), (err) => {

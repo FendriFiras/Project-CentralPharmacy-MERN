@@ -7,6 +7,9 @@ module.exports = (app) => {
 	// Retrieve all Commande
 	app.get('/afectation', affectation.afficherTout);
 
+	//update etat transporteur
+	app.post('/livree', affectation.livree);
+
 	// Retrieve a single Produit with produitId
 	//app.get('/produits/:produitId', produits.afficherUn);
 
