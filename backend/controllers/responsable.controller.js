@@ -29,16 +29,24 @@ catch (error) {   res.status(500).send(error);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
 // Retrieve and return all Responsables from the database.
 
-  exports.afficherToutR = (req, res) => {
-	User.find({ roles: ['6090ceba191dcb371c32008a'] })
+exports.afficherToutR = (req, res) => {
+	User.find({ roles: ['6090c9e105e3bb1be0be9f35'] })
 		.then((users) => {
 			res.send(users);
-		})
+            console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+            console.log(users);
+            console.log("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+        })
 		.catch((err) => {
 			res.status(500).send({
-				message: err.message || 'Some error occurred while retrieving Transporters.',
+				message: err.message || 'Some error occurred while retrieving Responsables.',
 			});
+            console.log("eeeeeeetttttttttttttttt");
+            console.log(users);
+            console.log("eeeeeettttttttttttttt");
+
 		});
+
 };
 
 
@@ -74,4 +82,3 @@ exports.supprimerU= async (request, response) => {
         response.status(500).send(error);
     }
 };
-

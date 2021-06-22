@@ -3,6 +3,7 @@ module.exports = (app) => {
 
 	// Create a new Ctaegorie
 	app.post('/depots', depots.creerD);
+   
 
 	// Retrieve all Produits
 	app.get('/depots', depots.afficherTout);
@@ -11,8 +12,8 @@ module.exports = (app) => {
 	//app.get('/produits/:produitId', produits.afficherUn);
 
 	// Update a Produit with produitId
-	//     app.put('/produits/:produitId', produits.modifier);
+    app.put('/depots/:depotId',depots.modifier);
 
 	// Delete a Produit with produitId
-	//   app.delete('/produits/:produitId', produits.supprimer);
+	 app.delete('/depots/:depotId', depots.supprimer);
 };

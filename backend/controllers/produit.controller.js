@@ -78,12 +78,12 @@ exports.afficherToutProduit = (req, res) => {
 
 exports.modifierProduit = async (request, response) => {
 	try {
-		var n = await Produit.findById({ _id: request.params.produitId }).exec();
-		labelleProd: req.body.labelleProd || 'Un labelleProdd';
-		mode: req.body.mode || 'Unmoded';
-		dose: req.body.dose || 'undosed';
-		dci: req.body.dci || 'no dci';
-		prixUnit: req.body.prixUnit || 'Empty Content';
+		var n = await Produit.findById({ _id: request.body.id}).exec();
+		n.labelleProd= req.body.labelleProd || 'Un labelleProdd';
+		n.mode= req.body.mode || 'Unmoded';
+		n.dose= req.body.dose || 'undosed';
+		n.dci=req.body.dci || 'no dci';
+		n.prixUnit=req.body.prixUnit || 'Empty Content';
 		var result = await n.save();
 		response.send(result);
 	} catch (error) {

@@ -7,11 +7,11 @@ exports.creerD=  async(req, res) =>{
 
   var depot = new Depot({
 
-    idDepot:req.body.idDepot||0,
+    
     name :req.body.name||"Empty Content", 
     adress:req.body.adress||"Untitled",
     location :req.body.location||"Empty Content",
-    idResponsable:req.body.idResponsable||"Untitled",
+  
 
 });
 
@@ -39,16 +39,16 @@ exports.afficherTout = (req, res) => {
 exports.modifier = async(request, response) => {
     try 
     {
-    var d =  await Depot.findById({ _id: request.params.depotId }).exec();
+    var d =  await Depot.findById({ _id: request.params._id }).exec();
 
 
 
     
-    d.idDepot=request.body.idDepot|| "Updated Depot" ; 
+    
     d.name =req.body.name||"Empty Content";
     d.adress=req.body.adress||"Untitled";
     d.location=req.body.location||"Empty Content";
-    d.idResponsable=req.body.idResponsable||"Untitled";
+    
 
 
          var result = await d.save();

@@ -1,11 +1,9 @@
 const mongoose = require('mongoose');
 
 const DepotSchema = mongoose.Schema({
-    idDepot: String,
     name: String,
     adress: String,
-    location: String,
-    idResponsable:Number
+    location: String
 }, {
     timestamps: true
 });
