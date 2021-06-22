@@ -43,7 +43,6 @@ const Commandes = (props) => {
 	const [transporteur, setTransporteur] = useState([]);
 	const [selectedCommande, setSelectedCommande] = useState();
 	const [selectedTransporteur, setSelectedTransporteur] = useState();
-	
 
 	const handleChange1 = (e) => {
 		setSelectedTransporteur(e.target.value);
@@ -54,10 +53,9 @@ const Commandes = (props) => {
 
 	useEffect(() => {
 		commandesFetch();
-		
 
 		transporteursFetch();
-		
+
 		setrender(true);
 	}, [render]);
 	const commandesFetch = async (event) => {
@@ -189,7 +187,7 @@ const Commandes = (props) => {
 											return (
 												<tr>
 													<td>{com._id}</td>
-													<td>{com.dateCom.slice(0, 10)}</td>
+													<td>{com.createdAt.slice(0, 10)}</td>
 													<td>{com.etatCom}</td>
 													<td>{com.etatPayCom}</td>
 													<td>{com.prixHt}</td>

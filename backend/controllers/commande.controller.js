@@ -32,7 +32,7 @@ exports.genererCommande = async (req, res) => {
 			});
 			var commande = new Commande({
 				prodAchetes: req.body.prodAchetes || cart.products,
-				dateCom: req.body.dateCom || '01/06/2023',
+				dateCom: req.body.dateCom || '22/06/2021',
 				etatCom: req.body.etatCom || 'Non livrée',
 				etatPayCom: req.body.etatPayCom || 'Non Payée',
 				prixHt: req.body.prixHt || cart.totalPrice,
@@ -51,24 +51,10 @@ exports.genererCommande = async (req, res) => {
 	}
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 exports.affecterCommande = async (req, res) => {
 	try {
 		fs.readFile(pp, (err, fileContent) => {
-			let cartt = { commande: [], chauffeur: ""};
+			let cartt = { commande: [], chauffeur: '' };
 			if (!err) {
 				cartt = JSON.parse(fileContent);
 			}
@@ -79,32 +65,11 @@ exports.affecterCommande = async (req, res) => {
 			});
 
 			console.log(cartt);
-
-
 		});
 	} catch (error) {
 		res.status(500).send(error);
 	}
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////#
 // Retrieve and return all Admins from the database.
@@ -120,15 +85,6 @@ exports.afficherTout = (req, res) => {
 		});
 };
 
-
-  
-
-
-
-
-
-
-
 // Delete a User with the specified userId in the request
 exports.supprimer = async (request, response) => {
 	try {
@@ -138,7 +94,6 @@ exports.supprimer = async (request, response) => {
 		response.status(500).send(error);
 	}
 };
-
 
 exports.modifierU = async (request, response) => {
 	try {

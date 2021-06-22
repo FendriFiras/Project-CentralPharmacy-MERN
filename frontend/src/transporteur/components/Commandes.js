@@ -127,7 +127,7 @@ const Commandes = (props) => {
 																com.etatCom !== 'livreé' && (
 																	<tr>
 																		<td>{com._id}</td>
-																		<td>{com.dateCom.slice(0, 10)}</td>
+																		<td>{com.createdAt.slice(0, 10)}</td>
 																		<td>
 																			{com.etatCom}
 																			<Button

@@ -64,8 +64,6 @@ const Grossistes = (props) => {
 									<tr>
 										<th scope="col"> Nom</th>
 										<th scope="col">email</th>
-										<th scope="col">Mot de passe</th>
-	
 									</tr>
 								</thead>
 								<tbody>
@@ -74,8 +72,6 @@ const Grossistes = (props) => {
 											<tr>
 												<td>{gro.username}</td>
 												<td>{gro.email}</td>
-												<td>{gro.password}</td>
-
 											</tr>
 										);
 									})}
