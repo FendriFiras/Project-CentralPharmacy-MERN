@@ -5,7 +5,10 @@ module.exports = (app) => {
 	app.post('/affectation', affectation.saveAff);
 
 	// Retrieve all Commande
-	app.get('/afectation', affectation.afficherTout);
+	app.get('/affectation', affectation.afficherTout);
+
+	//update etat transporteur
+	app.post('/livree', affectation.livree);
 
 	// Retrieve a single Produit with produitId
 	//app.get('/produits/:produitId', produits.afficherUn);

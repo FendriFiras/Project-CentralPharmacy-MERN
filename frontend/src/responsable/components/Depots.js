@@ -83,6 +83,7 @@ const Depots = (props) => {
 										<th scope="col">adress</th>
 										<th scope="col">location</th>
 										<th scope="col">id Responsable</th>
+
 									</tr>
 								</thead>
 								<tbody>
@@ -96,8 +97,7 @@ const Depots = (props) => {
 															<td>{dep.adress}</td>
 															<td>{dep.location}</td>
 															<td>{dep.idResponsable}</td>
-															
-										
+
 														</tr>
 														); 
 														

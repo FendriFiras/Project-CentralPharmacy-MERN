@@ -24,7 +24,7 @@ const Dashboard = () => {
 	}, []);
 	const commandeJsonFetch = async (event) => {
 		try {
-			const response = await fetch('http://localhost:3001/afectation', {
+			const response = await fetch('http://localhost:3001/affectation', {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
